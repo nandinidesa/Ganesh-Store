@@ -1,0 +1,253 @@
+body {
+    font-family: Arial, sans-serif;
+}
+
+.hero {
+    background: #f4f4f4;
+    text-align: center;
+    padding: 50px 20px;
+}
+
+.hero h1 {
+    font-size: 36px;
+}
+
+footer {
+    background: #111;
+    color: #fff;
+    text-align: center;
+    padding: 20px;
+}
+
+footer a {
+    color: #fff;
+    text-decoration: none;
+}
+
+.icon-buttons a {
+    font-size: 18px;
+    margin-left: 15px;
+    color: white;
+    text-decoration: none;
+    position: relative;
+}
+
+.badge {
+    font-size: 12px;
+    position: absolute;
+    top: -5px;
+    right: -10px;
+}
+
+.nav-link.active {
+    font-weight: bold;
+    color: #007bff !important;
+}
+
+.icon-buttons i {
+    font-weight: 700;
+}
+
+.position-relative {
+    position: relative;
+}
+
+.text-overlay {
+    position: absolute;
+    top: 50%;
+    font-family: "Times New Roman", Times, serif;
+    left: 150px;
+    transform: translateY(-50%);
+    color: black;
+    text-align: left;
+    z-index: 1;
+}
+
+.navbar {
+    position: sticky;
+    top: 0;
+    z-index: 1000;
+    background-color: #cdcedc;
+}
+
+.card {
+    position: relative;
+    width: 100%;
+    margin: 10px;
+    border-radius: 0px;
+    overflow: hidden;
+    box-shadow: 5px 5px 5px rgb(176, 161, 161);
+    border: None;
+}
+
+.card-img-top {
+    width: 100%;
+    height: auto;
+    object-fit: cover;
+    object-position: center;
+}
+
+.card-body {
+    padding: 15px;
+    background-color: rgba(255, 255, 255, 0.8);
+    color: #333;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.card-title {
+    color: #333;
+    font-weight: bold;
+    font-size: large;
+}
+
+.card-text {
+    font-size: 0.9em;
+    color: grey;
+}
+
+.liked {
+    background-color: #ff4081;
+    /* Change to your desired color */
+    color: white;
+    /* Change text color if needed */
+}
+
+.card {
+    box-shadow: #cdcedc;
+}
+
+.card-img-top {
+    border-radius: 0px 0px 0px 0px;
+}
+
+footer {
+    background-color: #111;
+    color: #fff;
+    padding: 64px 0px;
+}
+
+.newsletter {
+    margin-top: 0px;
+}
+
+.newsletter input[type="email"] {
+    padding: 10px;
+    width: 100%;
+    border: none;
+    border-bottom: 1px solid #a89d9d;
+    background: transparent;
+    box-shadow: none;
+    transition: border-color 0.3s ease;
+    margin-bottom: 10px;
+}
+
+.newsletter button {
+    padding: 10px 15px;
+    background-color: #5157c9;
+    color: #fff;
+    border: none;
+    border-radius: 30px;
+    cursor: pointer;
+    width: 75%;
+}
+
+.newsletter button:hover {
+    background-color: #333;
+}
+
+.footer-container {
+    display: flex;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    max-width: 1200px;
+    margin: 10px;
+}
+
+.footer-column {
+    flex: 1;
+    min-width: 200px;
+    margin: 10px;
+}
+
+.footer-column h3 {
+    font-size: 16px;
+    margin-bottom: 15px;
+}
+
+.footer-column ul {
+    list-style: none;
+    padding-left: 90px;
+    margin: 0;
+}
+
+.footer-column ul {
+    margin-bottom: 10px;
+    position: relative;
+    text-align: left;
+}
+
+.footer-column ul li a {
+    color: #a89d9d;
+    text-decoration: none;
+    font-size: small;
+}
+
+.footer-column ul li a:hover {
+    text-decoration: underline;
+}
+
+@media (min-width: 768px) {
+    .card {
+        width: calc(25% - 20px);
+    }
+}
+
+@media (max-width: 5000px) {
+    .card {
+        width: 100%;
+    }
+}
+
+@media (max-width: 768px) {
+    footer .row {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+
+    footer h5,
+    footer p {
+        padding-right: 0;
+    }
+}
+
+@media (max-width: 375px) {
+    .navbar-brand img {
+        width: 150px;
+    }
+
+    .text-overlay {
+        left: 20px;
+    }
+
+    .text-muted {
+        font-size: 10px;
+    }
+
+    .display-4 {
+        font-size: 15px;
+    }
+
+    .card-title {
+        font-size: 1em;
+    }
+
+    .card-text {
+        font-size: 0.8em;
+    }
+
+    .footer-column ul {
+        padding-left: 0px;
+    }
+}
