@@ -1,3 +1,9 @@
+// Creation of DataLayer 
+window.dataLayer = {
+    'pageTitle':document.title,
+    'pagePath':window.location.pathname
+}
+
 const likeButtons = document.querySelectorAll('.like-button');
 likeButtons.forEach(button => {
     button.addEventListener('click', function () {

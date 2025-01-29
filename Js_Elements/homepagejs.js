@@ -1,3 +1,9 @@
+// Creation of DataLayer 
+window.dataLayer = {
+    'event':'pageview',
+    'pageTitle':document.title,
+    'pagePath':window.location.pathname
+}
 let a = document.querySelector(".btn");
 a.addEventListener("click", function () {
     let emailInput = document.querySelector('input[type="email"]');
