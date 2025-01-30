@@ -1,10 +1,9 @@
-// Creation of DataLayer 
 window.dataLayer = {
-    'userType': Guest,
+    'event':'pageview',
     'pageTitle':document.title,
     'pagePath':window.location.pathname
 }
-
+console.log(window.dataLayer);
 function changeImage(imageSrc) {
     document.getElementById('main-image').src = imageSrc;
 }

@@ -4,6 +4,8 @@ window.dataLayer = {
     'pageTitle':document.title,
     'pagePath':window.location.pathname
 }
+console.log(window.dataLayer);
+
 let a = document.querySelector(".btn");
 a.addEventListener("click", function () {
     let emailInput = document.querySelector('input[type="email"]');

@@ -78,7 +78,6 @@ footer a {
     overflow: hidden;
     box-shadow: 5px 5px 5px rgb(176, 161, 161);
     border: None;
-
 }
 
 .card-img-top {
@@ -151,7 +150,6 @@ footer {
     color: #a89d9d;
     text-decoration: none;
     font-size: small;
-
 }
 
 .footer-column ul li a:hover {
@@ -167,13 +165,12 @@ footer {
     color: rgb(250, 244, 244);
     font-size: 15px;
     text-decoration: none;
-    transition: color 0.3s ease;
+    transition: color 0.3s ease ;
 }
 
 .footer-social-icons a:hover {
     color: #007bff;
 }
-
 
 .newsletter {
     margin-top: 0px;
@@ -203,7 +200,6 @@ footer {
 .newsletter button:hover {
     background-color: #333;
 }
-
 
 .footer-bottom {
     text-align: center;
@@ -243,8 +239,6 @@ p {
 .carousel-control-next {
     right: 0;
 }
-
-
 
 @media (min-width: 76800px) {
     .card {
@@ -298,7 +292,6 @@ p {
     .footer-column ul {
         padding-left: 0px;
     }
-
 }
 
 @media (max-width: 375px) {
