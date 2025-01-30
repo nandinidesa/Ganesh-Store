@@ -1,8 +1,8 @@
 // Creation of DataLayer 
 window.dataLayer = {
-    'event':'pageview',
-    'pageTitle':document.title,
-    'pagePath':window.location.pathname
+    event :'pageview',
+    pageTitle : 'hoempage',
+    userType : 'Guest'
 }
 console.log(window.dataLayer);
 
