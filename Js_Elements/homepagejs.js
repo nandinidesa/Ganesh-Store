@@ -2,7 +2,8 @@
 window.dataLayer = {
     event :'pageview',
     pageTitle : 'hoempage',
-    userType : 'Guest'
+    userType : 'Guest',
+    customerID : '2d08FB17EE273F4'
 }
 console.log(window.dataLayer);
 
