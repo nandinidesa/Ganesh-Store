@@ -7,10 +7,11 @@
     <title>Ganesh Store</title>
     <!-- Bootstrap CSS -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/css/bootstrap.min.css" rel="stylesheet">
-    <!-- Bootstrap Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
     <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-icons/1.8.1/font/bootstrap-icons.min.css"
         rel="stylesheet">
     <link rel="stylesheet" href="/Styling_Elements/PLPstyle.css">
+    <script src="Js_Elements/product.js" defer></script> <!-- Include the product.js file -->
     <script>
         !function(e,a,n,t){var i=e.head;if(i){
         if (a) return;
@@ -18,7 +19,67 @@
         o.id="alloy-prehiding",o.innerText=n,i.appendChild(o),setTimeout(function(){o.parentNode&&o.parentNode.removeChild(o)},t)}}
         (document, document.location.href.indexOf("adobe_authoring_enabled") !== -1, ".personalization-container { opacity: 0 !important }", 3000);
       </script>
-    <script src="https://assets.adobedtm.com/01296dd00565/69542035b4fc/launch-8d5fae73d82d-development.min.js" async></script>
+    <script src="https://assets.adobedtm.com/e78d80a30a77/1e8c4ae63ccd/launch-e48894c2ba46-development.min.js" async></script>
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+            renderProducts(); // Call the function to render products
+            updateCartCount(); // Update cart count on load
+        });
+
+        function renderProducts(category = 'all') {
+            const productList = document.getElementById('product-list');
+            productList.innerHTML = ''; // Clear existing products
+
+            // Filter products based on the selected category
+            const filteredProducts = category === 'all' ? products : products.filter(product => product.category === category);
+
+            filteredProducts.forEach(product => {
+                const productCard = `
+                    <div class="col-md-3 mb-4">
+                        <div class="card h-100 shadow-sm">
+                            <img src="${product.image}" class="card-img-top" alt="${product.title}">
+                            <div class="card-body d-flex flex-column">
+                                <a href="PDP1.html?productId=${product.id}" class="text-decoration-none text-dark">
+                                    <h5 class="card-title">${product.title}</h5>
+                                </a>
+                                <p class="card-text mt-auto"><strong>$${product.price.toFixed(2)}</strong></p>
+                                <button class="btn btn-outline-primary mt-2 like-button" data-product-id="${product.id}">
+                                    <i class="bi bi-heart"></i> Add to Wishlist
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                `;
+                productList.innerHTML += productCard;
+            });
+
+            // Add event listeners to like buttons
+            const likeButtons = document.querySelectorAll('.like-button');
+            likeButtons.forEach(button => {
+                button.addEventListener('click', function () {
+                    this.classList.toggle('liked');
+                    const productId = this.getAttribute('data-product-id');
+                    if (this.classList.contains('liked')) {
+                        alert(`Product ${productId} added to wishlist!`);
+                    } else {
+                        alert(`Product ${productId} removed from wishlist!`);
+                    }
+                });
+            });
+        }
+
+        // Function to filter products based on category
+        function filterProducts(category) {
+            renderProducts(category);
+        }
+
+        // Function to update the cart count in the navbar
+        function updateCartCount() {
+            const cart = JSON.parse(localStorage.getItem('cart')) || [];
+            const totalQuantity = cart.reduce((total, item) => total + item.quantity, 0); // Sum up quantities
+            document.getElementById('cart-count').innerText = totalQuantity; // Update the cart count
+        }
+    </script>
 </head>
 
 <body>
@@ -29,7 +90,7 @@
         </div>
     </header>
 
-    <nav class="navbar navbar-expand-lg">
+    <nav class="navbar navbar-expand-lg navbar-light bg-light shadow-sm">
         <div class="container">
             <a class="navbar-brand" href="#">
                 <img src="/images/icons/logo-01.png" alt="Logo" width="250" height="40">
@@ -40,25 +101,26 @@
             </button>
             <div class="collapse navbar-collapse" id="navbarNav">
                 <ul class="navbar-nav ms-3">
-                    <li class="nav-item"><a class="nav-link active" href="/index.html">Home</a></li>
+                    <li class="nav-item"><a class="nav-link" href="/index.html">Home</a></li>
                     <li class="nav-item"><a class="nav-link" href="/PLP.html">Shop</a></li>
                     <li class="nav-item"><a class="nav-link" href="#">Features</a></li>
                     <li class="nav-item"><a class="nav-link" href="#">Blog</a></li>
                     <li class="nav-item"><a class="nav-link" href="#">About</a></li>
                     <li class="nav-item"><a class="nav-link" href="#">Sign In</a></li>
                 </ul>
-                <div class="ms-auto d-flex align-items-center icons-container">
+                <div class="ms-auto d-flex align-items-center">
                     <a href="#" class="text-dark me-3">
-                        <i class="bi bi-search"></i>
+                        <i class="fa fa-search"></i>
                     </a>
-                    <a href="#" class="text-dark position-relative me-3">
-                        <i class="bi bi-cart"></i>
-                        <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-primary">
-                            2
+                    <a href="cart.html" class="text-dark position-relative me-3">
+                        <i class="fa fa-shopping-cart"></i>
+                        <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-primary"
+                            id="cart-count">
+                            0
                         </span>
                     </a>
                     <a href="#" class="text-dark position-relative">
-                        <i class="bi bi-heart"></i>
+                        <i class="fa fa-heart"></i>
                         <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-primary">
                             0
                         </span>
@@ -69,252 +131,14 @@
     </nav>
 
     <section class="container py-5">
-        <div class="heamp">
+        <div class="filter-container mb-4 text-center">
+            <button class="btn btn-outline-primary me-2" onclick="filterProducts('all')">All</button>
+            <button class="btn btn-outline-primary me-2" onclick="filterProducts('women')">Women</button>
+            <button class="btn btn-outline-primary me-2" onclick="filterProducts('men')">Men</button>
+            <button class="btn btn-outline-primary me-2" onclick="filterProducts('accessories')">Accessories</button>
         </div>
-        <!-- ROW 1 -->
-        <div class="row">
-            <div class="col-md-3">
-                <div class="card">
-                    <img src="/images/product-01.jpg" class="card-img-top" alt="Product 1">
-                    <div class="card-body">
-                        <div>
-                            <a href="/PDP1.html">
-                                <p class="card-title">Esprite Ruffle Shirt</p>
-                            </a>
-                            <p class="card-text"><strong>$16.64</strong></p>
-                        </div>
-                        <button class="btn btn-light like-button">
-                            <i class="bi bi-heart"></i>
-                        </button>
-                    </div>
-                </div>
-            </div>
-            <div class="col-md-3">
-                <div class="card">
-                    <img src="/images/product-02.jpg" class="card-img-top" alt="Product 2">
-                    <div class="card-body">
-                        <div>
-                            <a href="#">
-                                <p class="card-title">Herschel Supply</p>
-                            </a>
-                            <p class="card-text"><strong>$35.31</strong></p>
-                        </div>
-                        <button class="btn btn-light like-button">
-                            <i class="bi bi-heart"></i>
-                        </button>
-                    </div>
-                </div>
-            </div>
-            <div class="col-md-3">
-                <div class="card">
-                    <img src="/images/product-03.jpg" class="card-img-top" alt="Product 3">
-                    <div class="card-body">
-                        <div>
-                            <a href="#">
-                                <p class="card-title">Only Check Trouser</p>
-                            </a>
-                            <p class="card-text"><strong>$25.50</strong></p>
-                        </div>
-                        <button class="btn btn-light like-button">
-                            <i class="bi bi-heart"></i>
-                        </button>
-                    </div>
-                </div>
-            </div>
-            <div class="col-md-3">
-                <div class="card">
-                    <img src="/images/product-04.jpg" class="card-img-top" alt="Product 4">
-                    <div class="card-body">
-                        <div>
-                            <p class="card-title" style="size: 90px;">Stylish Jacket</p>
-                            <p class="card-text"><strong>$45.00</strong></p>
-                        </div>
-                        <button class="btn btn-light like-button">
-                            <i class="bi bi-heart"></i>
-                        </button>
-                    </div>
-                </div>
-            </div>
-        </div>
-
-        <!-- ROW 2 -->
-        <div class="row">
-            <div class="col-md-3">
-                <div class="card">
-                    <img src="/images/product-05.jpg" class="card-img-top" alt="Product 5">
-                    <div class="card-body">
-                        <div>
-                            <p class="card-title">Casual Sneakers</p>
-                            <p class="card-text"><strong>$60.00</strong></p>
-                        </div>
-                        <button class="btn btn-light like-button">
-                            <i class="bi bi-heart"></i>
-                        </button>
-                    </div>
-                </div>
-            </div>
-            <div class="col-md-3">
-                <div class="card">
-                    <img src="/images/product-06.jpg" class="card-img-top" alt="Product 6">
-                    <div class="card-body">
-                        <div>
-                            <p class="card-title">Leather Wallet</p>
-                            <p class="card-text"><strong>$25.00</strong></p>
-                        </div>
-                        <button class="btn btn-light like-button">
-                            <i class="bi bi-heart"></i>
-                        </button>
-                    </div>
-                </div>
-            </div>
-            <div class="col-md-3">
-                <div class="card">
-                    <img src="/images/product-07.jpg" class="card-img-top" alt="Product 7">
-                    <div class="card-body">
-                        <div>
-                            <p class="card-title">Stylish Sunglasses</p>
-                            <p class="card-text"><strong>$30.00</strong></p>
-                        </div>
-                        <button class="btn btn-light like-button">
-                            <i class="bi bi-heart"></i>
-                        </button>
-                    </div>
-                </div>
-            </div>
-            <div class="col-md-3">
-                <div class="card">
-                    <img src="/images/product-08.jpg" class="card-img-top" alt="Product 8">
-                    <div class="card-body">
-                        <div>
-                            <p class="card-title">Wool Scarf</p>
-                            <p class="card-text"><strong>$20.00</strong></p>
-                        </div>
-                        <button class="btn btn-light like-button">
-                            <i class="bi bi-heart"></i>
-                        </button>
-                    </div>
-                </div>
-            </div>
-        </div>
-
-        <!-- ROW 3 -->
-        <div class="row">
-            <div class="col-md-3">
-                <div class="card">
-                    <img src="/images/product-09.jpg" class="card-img-top" alt="Product 9">
-                    <div class="card-body">
-                        <div>
-                            <p class="card-title">Denim Jacket</p>
-                            <p class="card-text"><strong>$55.00</strong></p>
-                        </div>
-                        <button class="btn btn-light like-button">
-                            <i class="bi bi-heart"></i>
-                        </button>
-                    </div>
-                </div>
-            </div>
-            <div class="col-md-3">
-                <div class="card">
-                    <img src="/images/product-10.jpg" class="card-img-top" alt="Product 10">
-                    <div class="card-body">
-                        <div>
-                            <p class="card-title">Graphic T-Shirt</p>
-                            <p class="card-text"><strong>$18.00</strong></p>
-                        </div>
-                        <button class="btn btn-light like-button">
-                            <i class="bi bi-heart"></i>
-                        </button>
-                    </div>
-                </div>
-            </div>
-            <div class="col-md-3">
-                <div class="card">
-                    <img src="/images/product-11.jpg" class="card-img-top" alt="Product 11">
-                    <div class="card-body">
-                        <div>
-                            <p class="card-title">Chinos Pants</p>
-                            <p class="card-text"><strong>$40.00</strong></p>
-                        </div>
-                        <button class="btn btn-light like-button">
-                            <i class="bi bi-heart"></i>
-                        </button>
-                    </div>
-                </div>
-            </div>
-            <div class="col-md-3">
-                <div class="card">
-                    <img src="/images/product-12.jpg" class="card-img-top" alt="Product 12">
-                    <div class="card-body">
-                        <div>
-                            <p class="card-title">Running Shoes</p>
-                            <p class="card-text"><strong>$70.00</strong></p>
-                        </div>
-                        <button class="btn btn-light like-button">
-                            <i class=" bi bi-heart"></i>
-                        </button>
-                    </div>
-                </div>
-            </div>
-        </div>
-
-        <!-- ROW 4 -->
-        <div class="row">
-            <div class="col-md-3">
-                <div class="card">
-                    <img src="/images/product-13.jpg" class="card-img-top" alt="Product 13">
-                    <div class="card-body">
-                        <div>
-                            <p class="card-title">Casual Backpack</p>
-                            <p class="card-text"><strong>$45.00</strong></p>
-                        </div>
-                        <button class="btn btn-light like-button">
-                            <i class="bi bi-heart"></i>
-                        </button>
-                    </div>
-                </div>
-            </div>
-            <div class="col-md-3">
-                <div class="card">
-                    <img src="/images/product-14.jpg" class="card-img-top" alt="Product 14">
-                    <div class="card-body">
-                        <div>
-                            <p class="card-title">Leather Belt</p>
-                            <p class="card-text"><strong>$25.00</strong></p>
-                        </div>
-                        <button class="btn btn-light like-button">
-                            <i class="bi bi-heart"></i>
-                        </button>
-                    </div>
-                </div>
-            </div>
-            <div class="col-md-3">
-                <div class="card">
-                    <img src="/images/product-15.jpg" class="card-img-top" alt="Product 15">
-                    <div class="card-body">
-                        <div>
-                            <p class="card-title">Wrist Watch</p>
-                            <p class="card-text"><strong>$85.00</strong></p>
-                        </div>
-                        <button class="btn btn-light like-button">
-                            <i class="bi bi-heart"></i>
-                        </button>
-                    </div>
-                </div>
-            </div>
-            <div class="col-md-3">
-                <div class="card">
-                    <img src="/images/product-16.jpg" class="card-img-top" alt="Product 16">
-                    <div class="card-body">
-                        <div>
-                            <p class="card-title">Stylish Cap</p>
-                            <p class="card-text"><strong>$15.00</strong></p>
-                        </div>
-                        <button class="btn btn-light like-button">
-                            <i class="bi bi-heart"></i>
-                        </button>
-                    </div>
-                </div>
-            </div>
+        <div id="product-list" class="row">
+            <!-- Product cards will be rendered here -->
         </div>
     </section>
 
@@ -358,7 +182,7 @@
         </div>
         <div class="footer-bottom">
             <div class="payment-icons">
-                <img src="/images/icons/icon-pay-01.png" alt="PayPal ">
+                <img src="/images/icons/icon-pay-01.png" alt="PayPal">
                 <img src="/images/icons/icon-pay-02.png" alt="Visa">
                 <img src="/images/icons/icon-pay-03.png" alt="Mastercard">
                 <img src="/images/icons/icon-pay-04.png" alt="PayPal">
@@ -371,7 +195,17 @@
         </div>
     </footer>
     <script>
-        
+        // Function to update the cart count in the navbar
+        function updateCartCount() {
+            const cart = JSON.parse(localStorage.getItem('cart')) || [];
+            const totalQuantity = cart.reduce((total, item) => total + item.quantity, 0); // Sum up quantities
+            document.getElementById('cart-count').innerText = totalQuantity; // Update the cart count
+        }
+
+        // Call the function to update the cart count when the page loads
+        window.onload = function () {
+            updateCartCount();
+        };
     </script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/js/bootstrap.bundle.min.js"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" />

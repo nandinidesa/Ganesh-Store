@@ -19,3 +19,13 @@ document.addEventListener("DOMContentLoaded", function () {
         }
     });
 });
+
+document.querySelectorAll('.product-link').forEach(link => {
+    link.addEventListener('click', function (event) {
+        event.preventDefault();
+        const productId = this.getAttribute('data-product-id');
+        const product = products.find(p => p.id == productId);
+        localStorage.setItem('selectedProduct', JSON.stringify(product));
+        window.location.href = this.getAttribute('href');
+    });
+});
